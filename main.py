@@ -1,3 +1,5 @@
+import json
+import sys
 from dataclasses import dataclass
 from typing import List
 
@@ -104,7 +106,37 @@ def _PlayQuiz(quiz: Quiz):
 
     print(f'Congratulations - after {rounds_number} round quiz is over!')
 
+def _ParseKeywordFromData(data, filename: str, keyword: str):
+    if keyword not in data:
+        raise ValueError(f'[{filename}] has invalid format, [{keyword}] keyword absents.')
+    return data[keyword]
+
+def _ParseQuizQuestion(data, filename: str)->List[QuizQuestion]:
+    json_questions = _ParseKeywordFromData(data, filename, 'quiz_questions')
+    parsed_questions = []
+    for json_question in json_questions:
+        parsed_questions.append(QuizQuestion(
+            question=_ParseKeywordFromData(json_question, filename, 'question'),
+            variants=_ParseKeywordFromData(json_question, filename, 'variants'),
+            correct_answer=int(_ParseKeywordFromData(json_question, filename, 'correct_answer')),
+        ))
+    return parsed_questions
+
+def _ReadQuiz(filename: str)->Quiz:
+    with open(filename) as f:
+        data = json.load(f)
+       
+    quiz = Quiz(
+        name=_ParseKeywordFromData(data, filename, 'name'),
+        description=_ParseKeywordFromData(data, filename, 'description'),
+        quiz_questions=_ParseQuizQuestion(data, filename))
+    return quiz
+
+
+if (len(sys.argv) > 2):
+    raise SystemExit('Extected strictly two arguments. usage: @> main.py filename.')
+filename = sys.argv[1]
 print('Welcome to QuizPlayer!')
-fake_quiz = _CreateFakeQuiz()
-_PlayQuiz(fake_quiz)
-# print(fake_quiz)
+print(f'Reading quiz from file [{filename}]')
+quiz = _ReadQuiz(filename)
+_PlayQuiz(quiz)
