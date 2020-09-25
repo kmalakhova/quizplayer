@@ -1,7 +1,7 @@
 # quizplayer
 Learning has never been so easy - learn new things with Quiz Player!
 
-It's often case that you need to prepare for a quiz. Sometimes you wish to have a person who might went you thru different questions so you can check yourself. Wait no more! It could never be easier to learn and repeat new things, Quiz Payer is here just for you.
+It's often case that you need to prepare for a quiz. Sometimes you wish to have a person who might went you through different questions so you can check yourself. Wait no more! It could never be easier to learn and repeat new things, Quiz Payer is here just for you.
 
 ### Quick Start.
 1. Create a [json](https://en.wikipedia.org/wiki/JSON) file describing your quiz in the following format:
